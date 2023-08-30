@@ -1,8 +1,0 @@
-name = "miyukoiru"
-main = "src/index.ts"
-compatibility_date = "2023-08-30"
-usage_model = "bundled"
-env = { }
-
-[triggers]
-crons = [ ]

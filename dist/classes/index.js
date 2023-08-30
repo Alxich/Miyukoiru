@@ -6,4 +6,3 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tsundere = void 0;
 var _tsundere_1 = require("./_tsundere");
 Object.defineProperty(exports, "Tsundere", { enumerable: true, get: function () { return __importDefault(_tsundere_1).default; } });
-//# sourceMappingURL=index.js.map

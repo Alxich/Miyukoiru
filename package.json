@@ -4,9 +4,10 @@
   "description": "Miyukoiru: A bot that embodies the tsundere spirit, answering with a mix of playful defiance and occasional affection. Unpredictable and intriguing, Miyukoiru's responses keep you guessing, offering a balance between stubbornness and a hint of hidden warmth.",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc",
-    "start": "clear && nodemon ./dist/index.js || cls && nodemon ./dist/index.js",
-    "dev": "clear && npx nodemon || cls && npx nodemon",
+    "build": "tsc && npm run start",
+    "start": "clear && pm2 start ./dist/index.js --watch --attach || cls && pm2 start ./dist/index.js --watch --attach",
+    "stop": "npx pm2 kill",
+    "dev": "clear && pm2 start nodemon || cls && pm2 start nodemon ",
     "test": "node ./bin/testimonal.js"
   },
   "repository": {
@@ -32,6 +33,7 @@
     "dotenv": "^16.3.1",
     "kleur": "^4.1.5",
     "nodemon": "^3.0.1",
+    "pm2": "^5.3.0",
     "telegraf": "^4.12.2",
     "ts-node": "^10.9.1",
     "tslint": "^6.1.3",
