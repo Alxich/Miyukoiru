@@ -4,7 +4,7 @@
   "description": "Miyukoiru: A bot that embodies the tsundere spirit, answering with a mix of playful defiance and occasional affection. Unpredictable and intriguing, Miyukoiru's responses keep you guessing, offering a balance between stubbornness and a hint of hidden warmth.",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc && npm run start",
+    "build": "tsc",
     "start": "clear && pm2 start ./dist/index.js --watch --attach || cls && pm2 start ./dist/index.js --watch --attach",
     "stop": "npx pm2 kill",
     "dev": "clear && pm2 start nodemon || cls && pm2 start nodemon ",
