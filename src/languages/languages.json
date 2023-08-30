@@ -1,0 +1,42 @@
+{
+  "startPage": {
+    "en": "Oh, so you've finally decided to ask for help, huh? Don't get too ahead of yourself, I'm not doing this for your sake, you know. But fine, I'll entertain your request... for now.\n\n[Basic Commands]\n- /start: Ugh, the standard greeting. Don't expect me to be all sweet about it.\n- /info: If you really must know something about me, I might give you a little taste.\n\n[Available Help Pages]\n- /help/commands: You know, commands for when you're too clueless to figure things out on your own.\n- /help/aboutApi: Curious about the gears behind the scenes? Whatever, I might give you a peek.\n\n[Final Words]\nJust remember, I'm not here to cater to your every whim. If you want to stick around, be prepared for a wild ride of unpredictability. Now go on, use those commands... if you dare.",
+    "ua": "Ого, отже, нарешті ти вирішив просити допомоги, га? Не перехрещуй собі руки заздалегідь, я це не для тебе роблю, знаєш. Але ладно, якщо ти настільки хочеш, то дозволь мені тобі допомогти... наразі.\n\n[Основні Команди]\n- /start: Грр, стандартне привітання. Не чекай, що я буду робити це солодкомовно.\n- /info: Якщо тобі дійсно цікаво, що-небудь про мене дізнатися, то можливо, я дам тобі невеличкий підказочку.\n\n[Доступні Сторінки Допомоги]\n- /help/commands: Ти, звісно, знаєш, команди для тих, хто надто безглуздий, щоб сам зрозуміти, як все працює.\n- /help/aboutApi: Цікавишся, як шестеренки крутяться під капотом? Ну, допустимо, можливо, я трохи розкрию завісу.\n\n[Заключні Слова]\nТак що пам'ятай, я не тут для того, щоб виконувати всі твої капризи. Якщо ти хочеш позоставати тут, будь готовий до несподіванок на кожному кроці. Так що йди вперед, використовуй ті команди... якщо, звісно, сміливий до кінця!"
+  },
+  "infoPage": {
+    "en": "Introducing Miyukoiru, a captivating chatbot that encapsulates the essence of tsundere charm. Engage with her and experience a unique blend of playful defiance and subtle affection in her responses. With Miyukoiru, conversations become a delightful adventure as you navigate through her unpredictable and intriguing interactions. Whether she's teasing or revealing a hint of hidden warmth, Miyukoiru adds a touch of mystery and excitement to every exchange.",
+    "ua": "Представляємо вам Miyukoiru, захоплюючого чат-бота, що втілює суть поведіння тсундере. Взаємодійте з нею та відчуйте унікальне поєднання ігривої відмови та обережної прихильності в її відповідях. З Miyukoiru розмови перетворюються на захоплюючу пригоду, коли ви навігуєте через її непередбачувані та захоплюючі взаємодії. Незалежно від того, чи вона дразнить, чи розкриває намек на приховану теплоту, Міюкоіру додає чарівної загадковості та хвилювання до кожного обміну повідомленнями."
+  },
+  "commandsPage": {
+    "en": "1. The command /help - return you all data about using this bot\n2. The command /meme - return you random meme in chat\n3. The command /quiz - run game where you need take right number\n4. The command /lang - this will change my language you silly >_<",
+    "ua": "1. Команда /help - повертає вам всі дані щодо використання цього бота.\n2. Команда /meme - повертає вам випадковий мем в чаті.\n3. Команда /quiz - запускає гру, де вам потрібно вибрати правильне число.\n4. Команда /lang - це змінить мову мого спілкування, ти дурний >_<"
+  },
+  "aboutApiPage": {
+    "en": "MemeApi used in this bot from https://github.com/D3vd/Meme_Api \nAll answers about this api reference to author.",
+    "ua": "MemeApi, що використовується в цьому боті, взято з https://github.com/D3vd/Meme_Api \nУсі відповіді щодо цього API належать його автору."
+  },
+  "quizPage": {
+    "info": {
+      "en": "Geez, do I really have to spell it out for you? Fine, whatever. You must choose a number from 0 to 9, okay? But don't expect me to be all sugary about it!",
+      "ua": "Гігі, чи справді мені треба тобі все це викладати на долоню? Ладно, як хочеш. Тобі потрібно обрати число від 0 до 9, зрозуміло? Але не чекай, що я буду робити це солодкомовно!"
+    },
+    "results": {
+      "success": {
+        "en": "Ugh, whatever! I guess you, like, got the dumb number right or something. It's not like I care or anything... But, you know, good job, I guess. *mumbles...* Just don't think this means anything, okay?!",
+        "ua": "Ахх, нарешті! Ну, якщо ти, типу, вгадав це тупе число, чи що? Не думай, що мені до цього якось... Ну, ти знаєш. Впорався, мабуть, якось. муркоче... Просто не думай, що це щось значить, добре?        "
+      },
+      "error": {
+        "en": "Oopsie~! Looks like you totally missed the mark! But guess what? The bot? Oh, it got that number right, alright! Heh, can't help but chuckle a little at your expense. 😜 Don't get any funny ideas, though – it's not like I'm finding this that amusing. You know, just your typical moment of... well, let's call it 'entertainment.' Better luck next time, maybe?",
+        "ua": "Уупсі~! Здається, ти зовсім не влучив у ціль! Але знаєш що? Бот? Ну, він точно вгадав це число! Ха-ха, не можу відмовити собі в маленькому смішку за твій рахунок. 😜 Та не думай, що я ось так вже дуже насолоджуюся цим. Ти розумієш, це просто, так, типовий момент... ну, назвемо це 'розвагою'. Може, вдалося краще вдруге?"
+      }
+    }
+  },
+  "changeLanguage": {
+    "en": "Hmph, fine, I'll change the language for you, but don't think I'm doing it because I want to, okay? It's not like I enjoy this or anything, so don't get all excited! Geez... ",
+    "ua": "Гмф, ладно, якщо ти на цьому настоїв, то можливо, я зміню мову для тебе, але не думай, що я це роблю через своє бажання, зрозумів? Це взагалі не означає, що мені це подобається чи нещо, тож не відчувай жодного ентузіазму! Боже мій..."
+  },
+  "errorNoCommand": {
+    "en": "There is no such command. Look in /help, maybe there is something similar",
+    "ua": "Немає такої команди. Шукай в /help може там є щось подібне"
+  }
+}

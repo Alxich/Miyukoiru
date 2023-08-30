@@ -1,0 +1,40 @@
+{
+  "name": "miyukoiru",
+  "version": "1.0.0",
+  "description": "Miyukoiru: A bot that embodies the tsundere spirit, answering with a mix of playful defiance and occasional affection. Unpredictable and intriguing, Miyukoiru's responses keep you guessing, offering a balance between stubbornness and a hint of hidden warmth.",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc",
+    "start": "clear && nodemon ./dist/index.js || cls && nodemon ./dist/index.js",
+    "dev": "clear && npx nodemon || cls && npx nodemon",
+    "test": "node ./bin/testimonal.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alxich/Miyukoiru.git"
+  },
+  "keywords": [
+    "chatbot",
+    "telegrambot",
+    "bot",
+    "chatting",
+    "funny",
+    "tsundere"
+  ],
+  "author": "Alxich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alxich/Miyukoiru/issues"
+  },
+  "homepage": "https://github.com/Alxich/Miyukoiru#readme",
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "dotenv": "^16.3.1",
+    "kleur": "^4.1.5",
+    "nodemon": "^3.0.1",
+    "telegraf": "^4.12.2",
+    "ts-node": "^10.9.1",
+    "tslint": "^6.1.3",
+    "typescript": "^5.2.2"
+  }
+}
