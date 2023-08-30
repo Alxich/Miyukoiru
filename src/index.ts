@@ -10,7 +10,7 @@ const app = async () => {
   dotenv.config();
 
   const bot: Telegraf<Context<Update>> = new Telegraf(
-    process.env.TELLEGRAM_TOKEN as string
+    "6043588883:AAHD6PF7q8x64eFT7zZFv0rgw-C0tjIaMoA"
   );
 
   const tsundere = new Tsundere("UA");
