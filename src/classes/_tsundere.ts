@@ -16,6 +16,7 @@ class Tsundere {
   private language: LanguageOptions = "UA";
   private isCyrillic: boolean = false;
   private answersArray: string[] = [];
+  private emojisArray: string[] = [];
   private chats: Array<any> = [];
   private gameKeyBoard: any;
   private bot: any;
@@ -53,13 +54,15 @@ class Tsundere {
     }
   }
 
-  private getFilename(): string {
-    return this.isCyrillic
+  private getFilename(emojis?: boolean): string {
+    return emojis
+      ? "./public/8_ball_responses_emojis.txt"
+      : this.isCyrillic
       ? "./public/8_ball_responses_tsundere_ua.txt"
       : "./public/8_ball_responses_tsundere.txt";
   }
 
-  private randomIntFromInterval(min: number, max: number): number {
+  randomIntFromInterval(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
@@ -77,6 +80,20 @@ class Tsundere {
     }
   }
 
+  private async loadEmojisArray(): Promise<void> {
+    const rl = readline.createInterface({
+      input: fs.createReadStream(this.getFilename(true)),
+      output: process.stdout,
+      terminal: false,
+    });
+
+    this.emojisArray = []; // Clear the existing emojisArray
+
+    for await (const line of rl) {
+      this.emojisArray.push(line.trim());
+    }
+  }
+
   Greeting(userName: string) {
     return this.language != "UA"
       ? `Geez, finally decided to show ${userName} up, huh? Don't drag your feet or anything, I'm not exactly here to wait around for you. So, let's get this over with already, okay? I'm your so-called chatbot, here to assist... I guess. Don't make me spell out the basics for you – use those commands down below. And don't even think about keeping me waiting, got it? Now, chop chop, start using them already! It's not like I've got all day for your dilly-dallying.`
@@ -85,6 +102,7 @@ class Tsundere {
 
   async Initialize(): Promise<void> {
     await this.loadAnswersArray();
+    await this.loadEmojisArray();
 
     if (!this.platform) {
       throw new Error(
@@ -94,13 +112,15 @@ class Tsundere {
 
     switch (this.platform) {
       case "telegram":
-        this.bot = await new TelegramBot({
+        this.bot = new TelegramBot({
           answerToUserMsg: this.AnswerToUserMsg.bind(this),
           language: this.language,
           languagesTranslate,
+          randomIntFromInterval: this.randomIntFromInterval,
         });
 
-        await this.bot.startBot(this.Greeting.bind(this));
+        await this.bot.StartBot(this.Greeting.bind(this));
+        break;
 
       case "discord":
         break;
@@ -116,31 +136,42 @@ class Tsundere {
     const regExp = /[a-zA-Z]/g;
     const regExpUA = /[А-ЩЬЮЯҐЄІЇа-щьюяґєії]/g;
 
-    if (
-      question &&
-      (this.isCyrillic ? regExpUA.test(question) : regExp.test(question))
-    ) {
-      if (this.answersArray.length > 0) {
-        const randomAnswerId = this.randomIntFromInterval(
-          0,
-          this.answersArray.length - 1
-        );
-        return this.answersArray[randomAnswerId];
+    const randomAnswerGlobal = this.randomIntFromInterval(0, 1);
+    const randomEmoji =
+      this.emojisArray[
+        this.randomIntFromInterval(0, this.emojisArray.length - 1)
+      ];
+
+    if (!randomAnswerGlobal) {
+      if (
+        question &&
+        (this.isCyrillic ? regExpUA.test(question) : regExp.test(question))
+      ) {
+        if (this.answersArray.length > 0) {
+          const randomAnswerId = this.randomIntFromInterval(
+            0,
+            this.answersArray.length - 1
+          );
+          return this.answersArray[randomAnswerId];
+        } else {
+          const errorText =
+            "Error on loading answers file or no answers loaded.";
+          throw new Error(errorText);
+        }
       } else {
-        const errorText = "Error on loading answers file or no answers loaded.";
-        throw new Error(errorText);
+        const errorText =
+          this.language != "UA"
+            ? languagesTranslate.changeLanguage.error.en
+            : languagesTranslate.changeLanguage.error.ua;
+
+        return errorText;
       }
     } else {
-      const errorText =
-        this.language != "UA"
-          ? languagesTranslate.changeLanguage.error.en
-          : languagesTranslate.changeLanguage.error.ua;
-
-      return errorText;
+      return randomEmoji;
     }
   }
 
-  async ReturnMeme({
+  private async ReturnMeme({
     spoiler,
     nsfw,
     subreddit,
@@ -192,11 +223,13 @@ class Tsundere {
     });
   }
 
-  async ReturnDoge({
+  private async ReturnAnimal({
+    type = "shibes",
     count = 1,
     urls = true,
     httpsUrls = true,
   }: {
+    type?: "shibes" | "cats";
     count?: number;
     urls?: boolean;
     httpsUrls?: boolean;
@@ -206,11 +239,11 @@ class Tsundere {
      *
      * Author of api: http://shibe.online/api/
      */
-    const queryParams = `?count=${count}&urls=${urls}&httpsUrls=${httpsUrls}`;
+    const queryParams = `${type}?count=${count}&urls=${urls}&httpsUrls=${httpsUrls}`;
 
     const options = {
       hostname: "shibe.online",
-      path: `/api/shibes${queryParams}`,
+      path: `/api/${queryParams}`,
       method: "GET",
     };
 
@@ -241,7 +274,7 @@ class Tsundere {
     });
   }
 
-  PageInstruction(helpMenu: HelpInstructionProps) {
+  private PageInstruction(helpMenu: HelpInstructionProps) {
     const startPage =
       this.language != "UA"
         ? languagesTranslate.startPage.en
@@ -273,7 +306,7 @@ class Tsundere {
     }
   }
 
-  async changeLanguage(changer: LanguageOptions) {
+  private async changeLanguage(changer: LanguageOptions) {
     if (this.language !== changer) {
       this.language = changer;
       this.isCyrillic = this.language !== "EN";
@@ -283,7 +316,7 @@ class Tsundere {
     }
   }
 
-  async StartGame({
+  private async StartGame({
     sendMessage,
     callbackQuery,
     chatId,
@@ -309,7 +342,7 @@ class Tsundere {
     });
   }
 
-  async AnswerToUserMsg({
+  private async AnswerToUserMsg({
     sendMessage,
     callbackQuery,
     text,
@@ -327,8 +360,12 @@ class Tsundere {
           return memeData.url;
 
         case "/doge":
-          const dogeData = await this.ReturnDoge({});
+          const dogeData = await this.ReturnAnimal({});
           return dogeData;
+
+        case "/cat":
+          const catData = await this.ReturnAnimal({ type: "cats" });
+          return catData;
 
         case "/quiz":
           await this.StartGame({ sendMessage, callbackQuery, chatId });

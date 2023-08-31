@@ -15,7 +15,7 @@ export function helloServer() {
     " " +
       kleur
         .bold()
-        .yellow(`|   Server is running Miyukoiru telegram bot Good luck   |`)
+        .yellow(`|       Server is running Miyukoiru bot Good luck        |`)
   );
   console.log(
     " " +
@@ -73,7 +73,7 @@ export const menuReturnCommands = (language: LanguageOptions) => {
   const translations: Record<string, { en: string; ua: string }> =
     languagesTranslate.menuOptions;
 
-  return ["start", "info", "help", "meme", "quiz", "lang", "doge"].map(
+  return ["start", "info", "help", "meme", "quiz", "lang", "doge", "cat"].map(
     (command) => ({
       command,
       description:

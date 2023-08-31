@@ -16,23 +16,66 @@ class TelegramBot {
   private language: LanguageOptions = "UA";
   private languagesTranslate: any = [{}];
   private answerToUserMsg: AnswerToUserMsg;
+  private lastActivityTime: any = new Date();
+  private randomIntFromInterval: (min: number, max: number) => number;
 
   constructor({
     language,
     languagesTranslate,
     answerToUserMsg,
+    randomIntFromInterval,
   }: {
     language: LanguageOptions;
     languagesTranslate: any;
     answerToUserMsg: AnswerToUserMsg;
+    randomIntFromInterval: (min: number, max: number) => number;
   }) {
     this.bot = new Telegraf(this.token);
     this.language = language;
     this.languagesTranslate = languagesTranslate;
     this.answerToUserMsg = answerToUserMsg;
+    this.randomIntFromInterval = randomIntFromInterval;
+
+    const chatId = this.bot.context.chat?.id;
+
+    // Periodic activity check every 2 hours 30 minutes
+    setInterval(() => this.CheckActivity(chatId), 2.5 * 60 * 60 * 1000);
   }
 
-  async startBot(greeting: (userName: string) => string) {
+  private CheckActivity(chatId?: string | number) {
+    const currentTime: any = new Date();
+    const currentHour = currentTime.getHours();
+
+    /**
+     * This will check the last time user make activity
+     * and from that last time we count 4 hours.
+     * After 4 we will notify user about our bot.
+     *
+     * Bot will notify only at 10am to 9pm.
+     * There must not be night messages.
+     */
+    if (currentHour >= 10 && currentHour < 21) {
+      const timeDifference =
+        (currentTime - this.lastActivityTime) / (1000 * 60 * 60); // difference in hours
+
+      if (timeDifference >= 4) {
+        this.lastActivityTime = currentTime;
+
+        const { enArray, uaArray } = this.languagesTranslate.reminderText;
+
+        const message =
+          this.language !== "UA"
+            ? enArray[this.randomIntFromInterval(0, enArray.length - 1)]
+            : uaArray[this.randomIntFromInterval(0, enArray.length - 1)];
+
+        chatId ? this.SendMessage({ chatId, message }) : console.log(message);
+      }
+    }
+  }
+
+  async StartBot(greeting: (userName: string) => string) {
+    let chatId: string | number;
+
     if (!this.bot) {
       throw new Error("Hey bot is not created yet. Check the your code!");
     }
@@ -48,7 +91,7 @@ class TelegramBot {
     this.bot.on("message", async (ctx) => {
       // @ts-ignore
       const text = ctx.update.message.text;
-      const chatId = ctx.chat.id;
+      chatId = ctx.chat.id;
       const answer = await this.answerToUserMsg({
         chatId,
         text,
@@ -56,12 +99,22 @@ class TelegramBot {
         sendMessage: this.SendMessage.bind(this),
       });
 
-      if (text.startsWith("/meme")) {
-        await ctx.reply(Input.fromURL(answer));
-      }else if(text.startsWith("/doge"))  {
-        await ctx.replyWithPhoto(Input.fromURL(answer));
-      } else {
-        (await answer) && ctx.reply(answer);
+      this.lastActivityTime = new Date();
+
+      switch (true) {
+        case text.startsWith("/meme"):
+          await ctx.reply(Input.fromURL(answer));
+          break;
+
+        case text.startsWith("/doge") || text.startsWith("/cat"):
+          await ctx.replyWithPhoto(Input.fromURL(answer));
+          break;
+
+        default:
+          if (answer) {
+            await ctx.reply(answer);
+          }
+          break;
       }
     });
 

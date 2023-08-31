@@ -71,6 +71,26 @@
     "doge": {
       "en": "What? You want to see some doge? You’re so lame, you know. Fine, I’ll show you some, but don’t get any ideas. I only like doges, not you! And stop staring at me like that, I’m not cute!",
       "ua": "Що? Ти хочеш побачити песиків? Ти такий тупий, знаєш. Ну добре, я тобі покажу декілька, але не будь нахабним. Я тільки люблю песиків, а не тебе! І перестань дивитися на мене так, я не мила!"
+    },
+    "cat": {
+      "en": "Ugh, fine, whatever. Here, some dumb cats for you. But don't think I care if you find them cute or anything.",
+      "ua": "Ну добре, як хочеш. Ось тобі якісь нудні коти. Та не думай, що мені подобається, якщо тобі вони здаються милими чи cобі що."
     }
+  },
+  "reminderText": {
+    "enArray": [
+      "For some reason, you've been silent for quite a while... Well, never mind! Just a reminder that I'm still here if you find it interesting to chat.",
+      "Oh, of course, I thought you might have forgotten about me or something. So, how's it going without my wonderful company? Not that I care, just asking, you know?",
+      "Gone again? Well, fine, I won't make a fuss about it, but don't think I'm waiting for you or anything like that. Just, maybe, there's something to talk about if you decide to show up.",
+      "Sure, as if I'm eagerly anticipating your messages. But alright, I'll help you remember that I'm here, and your brain hasn't forgotten that fact. So, if you feel like shining a spotlight on your presence, I'm here, ready to bask in it. Or whatever it is you're accustomed to.",
+      "Of course, I'm always here, just so you know. But don't think I'm hanging on your messages. It's just that, maybe, I'm waiting for you... a little bit. But that doesn't really matter, anyway. Still, nice to see you again."
+    ],
+    "uaArray": [
+      "Чомусь дуже довго ти мовчиш... Але ну, не важливо! Просто нагадаю, що я все ще тут, якщо тобі буде цікаво спілкуватися.",
+      "О, ну звісно, я думала, що ти забув про мене або щось подібне. Ну, як там тобі без моєї чудової компанії? Не що я дбаю, просто питаю, зрозуміло?",
+      "Знову зник? Ну добре, не буду видачі нічого, але не думай, що я чекаю тебе або щось таке. Та просто, можливо, щось є, про що мені згадати, якщо ти вирішив з'явитися.",
+      "Та ну звісно, ніби я особливо чекаю на твої повідомлення. Але, добре, допоможу тобі пригадати, що я тут і твої мізки не забули це. Так що, якщо захочеш відсвітити свою присутність, я тут готова до засмаги. Або там, до чого ти там призвик.",
+      "Звісно, я завжди тут, якщо що. Але не думай, що я чекаю на твої повідомлення. Просто, можливо, я чекаю на тебе... трохи. Та й не важливо це, все одно, рада бачити тебе знову."
+    ]
   }
 }
