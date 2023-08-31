@@ -58,6 +58,8 @@ class TelegramBot {
 
       if (text.startsWith("/meme")) {
         await ctx.reply(Input.fromURL(answer));
+      }else if(text.startsWith("/doge"))  {
+        await ctx.replyWithPhoto(Input.fromURL(answer));
       } else {
         (await answer) && ctx.reply(answer);
       }

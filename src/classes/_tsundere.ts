@@ -192,6 +192,55 @@ class Tsundere {
     });
   }
 
+  async ReturnDoge({
+    count = 1,
+    urls = true,
+    httpsUrls = true,
+  }: {
+    count?: number;
+    urls?: boolean;
+    httpsUrls?: boolean;
+  }) {
+    /**
+     * Must return the doge from api via json data
+     *
+     * Author of api: http://shibe.online/api/
+     */
+    const queryParams = `?count=${count}&urls=${urls}&httpsUrls=${httpsUrls}`;
+
+    const options = {
+      hostname: "shibe.online",
+      path: `/api/shibes${queryParams}`,
+      method: "GET",
+    };
+
+    return new Promise<any>((resolve, reject) => {
+      const req = https.request(options, (response: any) => {
+        let data = "";
+
+        response.on("data", (chunk: any) => {
+          data += chunk;
+        });
+
+        response.on("end", () => {
+          try {
+            const dogeData = JSON.parse(data);
+            resolve(dogeData[0]);
+          } catch (error: any) {
+            reject(error);
+            throw new Error("Error parsing doge data:" + error.message);
+          }
+        });
+      });
+
+      req.on("error", (error: any) => {
+        throw new Error("Error fetching doge:" + error.message);
+      });
+
+      req.end();
+    });
+  }
+
   PageInstruction(helpMenu: HelpInstructionProps) {
     const startPage =
       this.language != "UA"
@@ -276,6 +325,10 @@ class Tsundere {
         case "/meme":
           const memeData = await this.ReturnMeme({});
           return memeData.url;
+
+        case "/doge":
+          const dogeData = await this.ReturnDoge({});
+          return dogeData;
 
         case "/quiz":
           await this.StartGame({ sendMessage, callbackQuery, chatId });

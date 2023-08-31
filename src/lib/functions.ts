@@ -73,9 +73,11 @@ export const menuReturnCommands = (language: LanguageOptions) => {
   const translations: Record<string, { en: string; ua: string }> =
     languagesTranslate.menuOptions;
 
-  return ["start", "info", "help", "meme", "quiz", "lang"].map((command) => ({
-    command,
-    description:
-      language !== "UA" ? translations[command].en : translations[command].ua,
-  }));
+  return ["start", "info", "help", "meme", "quiz", "lang", "doge"].map(
+    (command) => ({
+      command,
+      description:
+        language !== "UA" ? translations[command].en : translations[command].ua,
+    })
+  );
 };
