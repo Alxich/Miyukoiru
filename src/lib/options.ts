@@ -1,4 +1,4 @@
-export const gameOptions = {
+export const gameOptionsTelegram = {
   reply_markup: {
     inline_keyboard: [
       [
@@ -21,7 +21,7 @@ export const gameOptions = {
   },
 };
 
-export const againOptions = {
+export const againOptionsTelegram = {
   reply_markup: {
     inline_keyboard: [[{ text: "Try it again!", callback_data: "/again" }]],
   },

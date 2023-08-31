@@ -33,10 +33,40 @@
   },
   "changeLanguage": {
     "en": "Hmph, fine, I'll change the language for you, but don't think I'm doing it because I want to, okay? It's not like I enjoy this or anything, so don't get all excited! Geez... ",
-    "ua": "Гмф, ладно, якщо ти на цьому настоїв, то можливо, я зміню мову для тебе, але не думай, що я це роблю через своє бажання, зрозумів? Це взагалі не означає, що мені це подобається чи нещо, тож не відчувай жодного ентузіазму! Боже мій..."
+    "ua": "Гмф, ладно, якщо ти на цьому настоїв, то можливо, я зміню мову для тебе, але не думай, що я це роблю через своє бажання, зрозумів? Це взагалі не означає, що мені це подобається чи нещо, тож не відчувай жодного ентузіазму! Боже мій...",
+    "error": {
+      "en": "Oh, so now you decide to ask, huh? Well, if you must know, the text changes to another language when you request it to, you know. But don't get all excited just because I answered your question. It's not like I enjoy explaining things or anything. Geez..",
+      "ua": "Агов, так отже, ти нарешті вирішив запитати, га? Якщо тобі цікаво, текст змінюється на іншу мову, коли ти цього вимагаєш, знаєш. Але не відчувай себе особливо, просто через те, що я відповіла на твоє питання. Не думай, будь ласка, що мені подобається пояснювати речі чи нещо. Боже мій..."
+    }
   },
   "errorNoCommand": {
     "en": "There is no such command. Look in /help, maybe there is something similar",
     "ua": "Немає такої команди. Шукай в /help може там є щось подібне"
+  },
+  "menuOptions": {
+    "start": {
+      "en": "Fine, let's just get this chat started, okay? Don't think I'm all excited about it or anything. It's not like I've been waiting for you or whatever.",
+      "ua": "Ладно, давай вже почнемо наше спілкування. Не думай, що я тут для того, щоб чекати на твоє \"величне\" рішення, га!"
+    },
+    "help": {
+      "en": "Need help, huh? Like you can't figure things out on your own, huh? Whatever, I'll entertain your cries for assistance, I guess.",
+      "ua": "Чи тобі знадобиться допомога? Га! Ну якщо ти, звісно, такий важливий, що навіть не можеш справитися сам."
+    },
+    "quiz": {
+      "en": "Oh, so you're up for a game, huh? Like, whatever floats your boat, I guess. Don't get all high and mighty just because you suggested it.",
+      "ua": "Ох, ти хочеш... грати в гру! Це якась нова для тебе ідея, чи що?"
+    },
+    "lang": {
+      "en": "Oh, suddenly you want to speak another language? Trying to be all fancy now, huh? It's not like I care, but go ahead, impress me with your linguistic prowess.",
+      "ua": "А ти раптом захотів поговорити іншою мовою. Хочеш враз показати, що в тебе є хоч якась \"різноманітність\", чи що?"
+    },
+    "info": {
+      "en": "Well, well, well, look who's interested in getting to know me better. Like I'm some kind of fascinating mystery or something. Don't get too carried away with curiosity, okay?",
+      "ua": "О, так ти хочеш пізнати мене краще? Ну, можливо, хочеш взнати, як мені вдається бути такою \"привабливою\" особистістю, га?"
+    },
+    "meme": {
+      "en": "Haha, guess you're in need of some cheap entertainment, huh? Ready for your dose of fresh memes from Reddit? Just don't expect me to find it as hilarious as you do.",
+      "ua": "Га, га! Нові меми з реддіта, звісно! Тобі ж завжди треба свіжачок для розваги, вірно?"
+    }
   }
 }

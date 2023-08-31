@@ -1,31 +1,66 @@
-import languagesTranslate from "../languages/languages.json";
+import * as languagesTranslate from "../languages/languages.json";
 import {
   HelpInstructionProps,
-  TsundereInitProps,
-  TsundereStartProps,
+  LanguageOptions,
+  TsundereResolverProps,
 } from "../lib/types";
-import { againOptions, gameOptions } from "../lib/options";
 
 const fs = require("fs");
 const readline = require("readline");
 const https = require("https");
 
+import { gameOptionsTelegram } from "../lib/options";
+import TelegramBot from "./_telegramBot";
+
 class Tsundere {
-  private language: "UA" | "EN" = "UA";
+  private language: LanguageOptions = "UA";
   private isCyrillic: boolean = false;
   private answersArray: string[] = [];
+  private chats: Array<any> = [];
+  private gameKeyBoard: any;
+  private bot: any;
+  private platform?: "telegram" | "discord";
 
-  public chats: Array<any> = [];
-
-  constructor(language?: "UA" | "EN") {
+  constructor({
+    platform,
+    language,
+  }: {
+    platform: "telegram" | "discord";
+    language?: LanguageOptions;
+  }) {
     this.language = language || this.language;
     this.isCyrillic = this.language !== "EN";
+    this.platform = platform;
+
+    /**
+     * We modify that code later for discord
+     *
+     * The idea is use one class for few platforms.
+     * This allow initialize project easily from begining,
+     * developer just need specify what platform he need to use,
+     * and later class choose diferent method for it.
+     */
+
+    switch (this.platform) {
+      case "telegram":
+        this.gameKeyBoard = gameOptionsTelegram;
+      case "discord":
+        break;
+      default:
+        throw new Error(
+          "Hey! You can`t run the bot without choosing its platform!"
+        );
+    }
   }
 
   private getFilename(): string {
     return this.isCyrillic
       ? "./public/8_ball_responses_tsundere_ua.txt"
       : "./public/8_ball_responses_tsundere.txt";
+  }
+
+  private randomIntFromInterval(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   private async loadAnswersArray(): Promise<void> {
@@ -42,18 +77,39 @@ class Tsundere {
     }
   }
 
-  private randomIntFromInterval(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  Greeting(userName: string) {
+    return this.language != "UA"
+      ? `Geez, finally decided to show ${userName} up, huh? Don't drag your feet or anything, I'm not exactly here to wait around for you. So, let's get this over with already, okay? I'm your so-called chatbot, here to assist... I guess. Don't make me spell out the basics for you – use those commands down below. And don't even think about keeping me waiting, got it? Now, chop chop, start using them already! It's not like I've got all day for your dilly-dallying.`
+      : `Ух, нарешті ${userName} з'явився, га? Не бався тут ні з чим, я взагалі не для того тут, щоб чекати на тебе. Так отож, давай вже швидше закінчимо це, добре? Я твій, як тут кажуть, чат-бот, готовий, якщо можна так сказати. Не заставляй мене пояснювати базові речі – користуйся тими командами внизу. І не наважся мене затримувати, зрозумів? Ну давай, давай, почни вже з ними користуватися! Не думай, що я тут весь день готова чекати на твої питання`;
   }
 
   async Initialize(): Promise<void> {
     await this.loadAnswersArray();
-  }
 
-  Greeting(ctx: TsundereInitProps) {
-    return this.language != "UA"
-      ? `Geez, finally decided to show ${ctx.from?.username} up, huh? Don't drag your feet or anything, I'm not exactly here to wait around for you. So, let's get this over with already, okay? I'm your so-called chatbot, here to assist... I guess. Don't make me spell out the basics for you – use those commands down below. And don't even think about keeping me waiting, got it? Now, chop chop, start using them already! It's not like I've got all day for your dilly-dallying.`
-      : `Ух, нарешті ${ctx.from?.username} з'явився, га? Не бався тут ні з чим, я взагалі не для того тут, щоб чекати на тебе. Так отож, давай вже швидше закінчимо це, добре? Я твій, як тут кажуть, чат-бот, готовий, якщо можна так сказати. Не заставляй мене пояснювати базові речі – користуйся тими командами внизу. І не наважся мене затримувати, зрозумів? Ну давай, давай, почни вже з ними користуватися! Не думай, що я тут весь день готова чекати на твої питання`;
+    if (!this.platform) {
+      throw new Error(
+        "The platform its not specified. Please choose platform and token"
+      );
+    }
+
+    switch (this.platform) {
+      case "telegram":
+        this.bot = await new TelegramBot({
+          answerToUserMsg: this.AnswerToUserMsg.bind(this),
+          language: this.language,
+          languagesTranslate,
+        });
+
+        await this.bot.startBot(this.Greeting.bind(this));
+
+      case "discord":
+        break;
+
+      default:
+        throw new Error(
+          "Hey! You can`t run the bot without choosing its platform!"
+        );
+    }
   }
 
   async AnswerQuestion(question?: string): Promise<string> {
@@ -72,13 +128,14 @@ class Tsundere {
         return this.answersArray[randomAnswerId];
       } else {
         const errorText = "Error on loading answers file or no answers loaded.";
-        console.error(errorText);
-        return errorText;
+        throw new Error(errorText);
       }
     } else {
       const errorText =
-        "Error! User must provide a question to have an answer ヽ(｀Д´)ﾉ";
-      console.error(errorText);
+        this.language != "UA"
+          ? languagesTranslate.changeLanguage.error.en
+          : languagesTranslate.changeLanguage.error.ua;
+
       return errorText;
     }
   }
@@ -120,18 +177,15 @@ class Tsundere {
           try {
             const memeData = JSON.parse(data);
             resolve(memeData);
-
-            // Display the meme information
-            // console.log(memeData);
           } catch (error: any) {
             reject(error);
-            console.error("Error parsing meme data:", error.message);
+            throw new Error("Error parsing meme data:" + error.message);
           }
         });
       });
 
       req.on("error", (error: any) => {
-        console.error("Error fetching meme:", error.message);
+        throw new Error("Error fetching meme:" + error.message);
       });
 
       req.end();
@@ -170,64 +224,48 @@ class Tsundere {
     }
   }
 
-  async changeLanguage(changer: "UA" | "EN") {
+  async changeLanguage(changer: LanguageOptions) {
     if (this.language !== changer) {
       this.language = changer;
       this.isCyrillic = this.language !== "EN";
       await this.loadAnswersArray(); // Load answers for the new language
+
+      this.bot.changeLanguage(this.language);
     }
   }
 
-  async StartGame({ bot, ctx }: TsundereStartProps) {
-    // @ts-ignore
-    const chatId = ctx.chat.id;
+  async StartGame({
+    sendMessage,
+    callbackQuery,
+    chatId,
+  }: TsundereResolverProps) {
     const textGreeting =
       this.language != "UA"
         ? languagesTranslate.quizPage.info.en
         : languagesTranslate.quizPage.info.ua;
 
     const randomNumber = this.randomIntFromInterval(0, 9);
-    this.chats[chatId] = randomNumber;
 
-    await ctx.telegram.sendMessage(chatId, textGreeting, gameOptions);
+    typeof chatId === "number" ? (this.chats[chatId] = randomNumber) : false;
 
-    bot.on("callback_query", async (ctx) => {
-      // @ts-ignore
-      const data = ctx.update.callback_query.data;
-      // @ts-ignore
-      const chatId = ctx.chat.id;
+    await sendMessage({
+      chatId,
+      message: textGreeting,
+      options: this.gameKeyBoard,
+    });
 
-      if (data === "/again") {
-        return this.StartGame({ bot, ctx });
-      }
-
-      const randomNum = this.chats[chatId];
-
-      if (data == randomNum) {
-        await bot.telegram.sendMessage(
-          chatId,
-          `${
-            this.language != "UA"
-              ? languagesTranslate.quizPage.results.success.en
-              : languagesTranslate.quizPage.results.success.ua
-          }`,
-          againOptions
-        );
-      } else {
-        await bot.telegram.sendMessage(
-          chatId,
-          `${
-            this.language != "UA"
-              ? languagesTranslate.quizPage.results.error.en
-              : languagesTranslate.quizPage.results.error.ua
-          }`,
-          againOptions
-        );
-      }
+    await callbackQuery({
+      chats: this.chats,
+      startGame: this.StartGame.bind(this),
     });
   }
 
-  async AnswerToUserMsg({ bot, ctx, text }: TsundereStartProps) {
+  async AnswerToUserMsg({
+    sendMessage,
+    callbackQuery,
+    text,
+    chatId,
+  }: TsundereResolverProps) {
     if (text && text.startsWith("/help")) {
       return this.PageInstruction(text as HelpInstructionProps);
     } else {
@@ -240,7 +278,7 @@ class Tsundere {
           return memeData.url;
 
         case "/quiz":
-          await this.StartGame({ bot, ctx });
+          await this.StartGame({ sendMessage, callbackQuery, chatId });
           break;
 
         case "/lang":

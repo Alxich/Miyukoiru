@@ -1,6 +1,7 @@
 import kleur from "kleur";
-import { Tsundere } from "../classes";
-import { HelpInstructionProps } from "./types";
+
+import * as languagesTranslate from "../languages/languages.json";
+import { LanguageOptions } from "./types";
 
 export function helloServer() {
   console.log(" ");
@@ -67,3 +68,14 @@ export function helloServer() {
       .yellow(" |--------------------------------------------------------| ")
   );
 }
+
+export const menuReturnCommands = (language: LanguageOptions) => {
+  const translations: Record<string, { en: string; ua: string }> =
+    languagesTranslate.menuOptions;
+
+  return ["start", "info", "help", "meme", "quiz", "lang"].map((command) => ({
+    command,
+    description:
+      language !== "UA" ? translations[command].en : translations[command].ua,
+  }));
+};

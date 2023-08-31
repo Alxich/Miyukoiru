@@ -1,40 +1,20 @@
 import * as dotenv from "dotenv";
-import { Context, Input, Telegraf } from "telegraf";
-import { Update } from "typegram";
 
 import { Tsundere } from "./classes";
-
 import { helloServer } from "./lib/functions";
 
 const app = async () => {
   dotenv.config();
 
-  const bot: Telegraf<Context<Update>> = new Telegraf(
-    process.env.TELLEGRAM_TOKEN as string
-  );
-
-  const tsundere = new Tsundere("UA");
+  const tsundere = new Tsundere({
+    platform: "telegram",
+    language: "UA",
+  });
   await tsundere.Initialize();
-
-  bot.start((ctx) => {
-    ctx.reply(tsundere.Greeting(ctx));
-  });
-
-  bot.on("message", async (ctx) => {
-    // @ts-ignore
-    const text = ctx.update.message.text;
-    const answer = await tsundere.AnswerToUserMsg({ bot, ctx, text });
-
-    if (text.startsWith("/meme")) {
-      await ctx.reply(Input.fromURL(answer));
-    } else {
-      (await answer) && ctx.reply(answer);
-    }
-  });
-
-  bot.launch();
 
   helloServer();
 };
 
-app().catch((err) => console.error(err));
+app().catch((err) => {
+  throw new Error(err);
+});
