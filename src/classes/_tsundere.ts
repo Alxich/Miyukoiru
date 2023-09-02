@@ -10,7 +10,9 @@ const readline = require("readline");
 const https = require("https");
 
 import { gameOptionsTelegram } from "../lib/options";
+
 import TelegramBot from "./_telegramBot";
+import DiscordBot from "./_discordBot";
 
 class Tsundere {
   private language: LanguageOptions = "UA";
@@ -123,6 +125,14 @@ class Tsundere {
         break;
 
       case "discord":
+        this.bot = new DiscordBot({
+          answerToUserMsg: this.AnswerToUserMsg.bind(this),
+          language: this.language,
+          languagesTranslate,
+          randomIntFromInterval: this.randomIntFromInterval,
+        });
+
+        await this.bot.StartBot(this.Greeting.bind(this));
         break;
 
       default:
@@ -132,43 +142,66 @@ class Tsundere {
     }
   }
 
-  async AnswerQuestion(question?: string): Promise<string> {
+  async AnswerQuestion({
+    question,
+    emojy,
+  }: {
+    question?: string;
+    emojy: boolean;
+  }): Promise<string> {
     const regExp = /[a-zA-Z]/g;
     const regExpUA = /[А-ЩЬЮЯҐЄІЇа-щьюяґєії]/g;
 
-    const randomAnswerGlobal = this.randomIntFromInterval(0, 1);
+    const randomAnswerGlobal = this.randomIntFromInterval(0, 9);
     const randomEmoji =
       this.emojisArray[
         this.randomIntFromInterval(0, this.emojisArray.length - 1)
       ];
 
-    if (!randomAnswerGlobal) {
-      if (
-        question &&
-        (this.isCyrillic ? regExpUA.test(question) : regExp.test(question))
-      ) {
-        if (this.answersArray.length > 0) {
-          const randomAnswerId = this.randomIntFromInterval(
-            0,
-            this.answersArray.length - 1
-          );
-          return this.answersArray[randomAnswerId];
+    if (emojy) {
+      return randomEmoji;
+    } else {
+      if (randomAnswerGlobal !== 5) {
+        if (
+          question &&
+          (this.isCyrillic ? regExpUA.test(question) : regExp.test(question))
+        ) {
+          if (this.answersArray.length > 0) {
+            const randomAnswerId = this.randomIntFromInterval(
+              0,
+              this.answersArray.length - 1
+            );
+            return this.answersArray[randomAnswerId];
+          } else {
+            const errorText =
+              "Error on loading answers file or no answers loaded.";
+            throw new Error(errorText);
+          }
         } else {
           const errorText =
-            "Error on loading answers file or no answers loaded.";
-          throw new Error(errorText);
+            this.language != "UA"
+              ? languagesTranslate.changeLanguage.error.en
+              : languagesTranslate.changeLanguage.error.ua;
+
+          return errorText;
         }
       } else {
-        const errorText =
-          this.language != "UA"
-            ? languagesTranslate.changeLanguage.error.en
-            : languagesTranslate.changeLanguage.error.ua;
-
-        return errorText;
+        return randomEmoji;
       }
-    } else {
-      return randomEmoji;
     }
+  }
+
+  ReturnErrorAnswer() {
+    const randomAnswerId = this.randomIntFromInterval(
+      0,
+      languagesTranslate.errorText.en.length
+    );
+    const error =
+      this.language != "UA"
+        ? languagesTranslate.errorText.en[randomAnswerId]
+        : languagesTranslate.errorText.ua[randomAnswerId];
+
+    return error;
   }
 
   private async ReturnMeme({
@@ -316,11 +349,25 @@ class Tsundere {
     }
   }
 
+  // Only optimized for telegram
+
   private async StartGame({
     sendMessage,
     callbackQuery,
     chatId,
   }: TsundereResolverProps) {
+    if (!callbackQuery) {
+      throw new Error("Game cannot work without a callback function");
+    }
+
+    if (!sendMessage) {
+      throw new Error("Game cannot work without a sendMessage function");
+    }
+
+    if (!chatId) {
+      throw new Error("Game cannot work without a chat id");
+    }
+
     const textGreeting =
       this.language != "UA"
         ? languagesTranslate.quizPage.info.en
@@ -368,7 +415,8 @@ class Tsundere {
           return catData;
 
         case "/quiz":
-          await this.StartGame({ sendMessage, callbackQuery, chatId });
+          (await callbackQuery) &&
+            this.StartGame({ sendMessage, callbackQuery, chatId });
           break;
 
         case "/lang":
@@ -389,8 +437,17 @@ class Tsundere {
             }${selectedLang}`
           );
 
+        case "/question":
+          return await this.AnswerQuestion({ question: text, emojy: false });
+
+        case "/emojy":
+          return await this.AnswerQuestion({ emojy: true });
+
+        case "/error":
+          return this.ReturnErrorAnswer();
+
         default:
-          return await this.AnswerQuestion(text);
+          return await this.AnswerQuestion({ question: text, emojy: false });
       }
     }
   }

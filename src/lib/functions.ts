@@ -1,7 +1,11 @@
 import kleur from "kleur";
 
 import * as languagesTranslate from "../languages/languages.json";
-import { LanguageOptions } from "./types";
+import {
+  BotDiscordCommandsProps,
+  BotTelegramCommandsProps,
+  LanguageOptions,
+} from "./types";
 
 export function helloServer() {
   console.log(" ");
@@ -69,15 +73,48 @@ export function helloServer() {
   );
 }
 
-export const menuReturnCommands = (language: LanguageOptions) => {
+export const menuReturnCommands = (
+  language: LanguageOptions,
+  type: "telegram" | "discord"
+) => {
   const translations: Record<string, { en: string; ua: string }> =
     languagesTranslate.menuOptions;
 
-  return ["start", "info", "help", "meme", "quiz", "lang", "doge", "cat"].map(
-    (command) => ({
-      command,
+  const answers = [
+    "start",
+    "info",
+    "help",
+    "meme",
+    "quiz",
+    "lang",
+    "doge",
+    "cat",
+    "emojy",
+  ].map((command) => ({
+    ...(type !== "discord" ? { command: command } : { name: command }),
+    description:
+      language !== "UA" ? translations[command].en : translations[command].ua,
+  }));
+
+  // adding there extra command for discord to operate in right way with platform and not allow bot to answer every one
+  type === "discord" &&
+    answers.push({
+      ...{
+        options: [
+          {
+            type: 3,
+            name: "my_question",
+            description: "(≧◡≦)",
+            required: true,
+          },
+        ],
+      },
+      name: "question",
       description:
-        language !== "UA" ? translations[command].en : translations[command].ua,
-    })
-  );
+        language !== "UA"
+          ? languagesTranslate.discordQuestionStartCommand.en
+          : languagesTranslate.discordQuestionStartCommand.ua,
+    });
+
+  return answers;
 };

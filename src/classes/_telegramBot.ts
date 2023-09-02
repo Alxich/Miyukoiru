@@ -6,6 +6,7 @@ import {
   SendMessageProps,
   AnswerToUserMsg,
   CallbackQueryGameProps,
+  BotTelegramCommandsProps,
 } from "../lib/types";
 import { againOptionsTelegram } from "../lib/options";
 import { menuReturnCommands } from "../lib/functions";
@@ -30,16 +31,22 @@ class TelegramBot {
     answerToUserMsg: AnswerToUserMsg;
     randomIntFromInterval: (min: number, max: number) => number;
   }) {
-    this.bot = new Telegraf(this.token);
-    this.language = language;
-    this.languagesTranslate = languagesTranslate;
-    this.answerToUserMsg = answerToUserMsg;
-    this.randomIntFromInterval = randomIntFromInterval;
+    if (this.token) {
+      this.bot = new Telegraf(this.token);
+      this.language = language;
+      this.languagesTranslate = languagesTranslate;
+      this.answerToUserMsg = answerToUserMsg;
+      this.randomIntFromInterval = randomIntFromInterval;
 
-    const chatId = this.bot.context.chat?.id;
+      const chatId = this.bot.context.chat?.id;
 
-    // Periodic activity check every 2 hours 30 minutes
-    setInterval(() => this.CheckActivity(chatId), 2.5 * 60 * 60 * 1000);
+      // Periodic activity check every 2 hours 30 minutes
+      setInterval(() => this.CheckActivity(chatId), 2.5 * 60 * 60 * 1000);
+    } else {
+      throw new Error(
+        "Please provide a token to use this platform. You can check quide on github"
+      );
+    }
   }
 
   private CheckActivity(chatId?: string | number) {
@@ -61,12 +68,12 @@ class TelegramBot {
       if (timeDifference >= 4) {
         this.lastActivityTime = currentTime;
 
-        const { enArray, uaArray } = this.languagesTranslate.reminderText;
+        const { en, ua } = this.languagesTranslate.reminderText;
 
         const message =
           this.language !== "UA"
-            ? enArray[this.randomIntFromInterval(0, enArray.length - 1)]
-            : uaArray[this.randomIntFromInterval(0, enArray.length - 1)];
+            ? en[this.randomIntFromInterval(0, en.length - 1)]
+            : ua[this.randomIntFromInterval(0, en.length - 1)];
 
         chatId ? this.SendMessage({ chatId, message }) : console.log(message);
       }
@@ -118,7 +125,9 @@ class TelegramBot {
       }
     });
 
-    this.bot.telegram.setMyCommands(menuReturnCommands(this.language));
+    this.bot.telegram.setMyCommands(
+      menuReturnCommands(this.language, "telegram") as BotTelegramCommandsProps
+    );
 
     this.bot.launch();
 
@@ -134,7 +143,9 @@ class TelegramBot {
       throw new Error("Hey bot is not created yet. Check the your code!");
     }
 
-    this.bot.telegram.setMyCommands(menuReturnCommands(language));
+    this.bot.telegram.setMyCommands(
+      menuReturnCommands(language, "telegram") as BotTelegramCommandsProps
+    );
   }
 
   async SendMessage({ chatId, message, options }: SendMessageProps) {

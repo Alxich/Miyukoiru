@@ -7,7 +7,7 @@ const app = async () => {
   dotenv.config();
 
   const tsundere = new Tsundere({
-    platform: "telegram",
+    platform: "discord",
     language: "UA",
   });
   await tsundere.Initialize();

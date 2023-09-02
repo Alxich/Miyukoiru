@@ -43,54 +43,127 @@
     "en": "There is no such command. Look in /help, maybe there is something similar",
     "ua": "Немає такої команди. Шукай в /help може там є щось подібне"
   },
+
   "menuOptions": {
     "start": {
-      "en": "Fine, let's just get this chat started, okay? Don't think I'm all excited about it or anything. It's not like I've been waiting for you or whatever.",
-      "ua": "Ладно, давай вже почнемо наше спілкування. Не думай, що я тут для того, щоб чекати на твоє \"величне\" рішення, га!"
+      "en": "Let's chat, okay? Don't expect me to wait.",
+      "ua": "Давай спілкуватися. Не очікуй, що я чекатиму."
     },
     "help": {
-      "en": "Need help, huh? Like you can't figure things out on your own, huh? Whatever, I'll entertain your cries for assistance, I guess.",
-      "ua": "Чи тобі знадобиться допомога? Га! Ну якщо ти, звісно, такий важливий, що навіть не можеш справитися сам."
+      "en": "Need help? Fine, I'll assist.",
+      "ua": "Потрібна допомога? Добре, я допоможу."
     },
     "quiz": {
-      "en": "Oh, so you're up for a game, huh? Like, whatever floats your boat, I guess. Don't get all high and mighty just because you suggested it.",
-      "ua": "Ох, ти хочеш... грати в гру! Це якась нова для тебе ідея, чи що?"
+      "en": "Game time! No big deal.",
+      "ua": "Час гри! Нічого особливого."
     },
     "lang": {
-      "en": "Oh, suddenly you want to speak another language? Trying to be all fancy now, huh? It's not like I care, but go ahead, impress me with your linguistic prowess.",
-      "ua": "А ти раптом захотів поговорити іншою мовою. Хочеш враз показати, що в тебе є хоч якась \"різноманітність\", чи що?"
+      "en": "Speaking another language? Impress me.",
+      "ua": "Розмовляти іншою мовою? Врази мене."
     },
     "info": {
-      "en": "Well, well, well, look who's interested in getting to know me better. Like I'm some kind of fascinating mystery or something. Don't get too carried away with curiosity, okay?",
-      "ua": "О, так ти хочеш пізнати мене краще? Ну, можливо, хочеш взнати, як мені вдається бути такою \"привабливою\" особистістю, га?"
+      "en": "Interested in me? Don't get too curious.",
+      "ua": "Цікавишся мною? Не занадто."
     },
     "meme": {
-      "en": "Haha, guess you're in need of some cheap entertainment, huh? Ready for your dose of fresh memes from Reddit? Just don't expect me to find it as hilarious as you do.",
-      "ua": "Га, га! Нові меми з реддіта, звісно! Тобі ж завжди треба свіжачок для розваги, вірно?"
+      "en": "In need of entertainment? Enjoy memes!",
+      "ua": "Потрібна розвага? Насолоджуйся мемами!"
     },
     "doge": {
-      "en": "What? You want to see some doge? You’re so lame, you know. Fine, I’ll show you some, but don’t get any ideas. I only like doges, not you! And stop staring at me like that, I’m not cute!",
-      "ua": "Що? Ти хочеш побачити песиків? Ти такий тупий, знаєш. Ну добре, я тобі покажу декілька, але не будь нахабним. Я тільки люблю песиків, а не тебе! І перестань дивитися на мене так, я не мила!"
+      "en": "Want to see doge? Fine, here.",
+      "ua": "Хочеш побачити песиків? Добре, ось."
     },
     "cat": {
-      "en": "Ugh, fine, whatever. Here, some dumb cats for you. But don't think I care if you find them cute or anything.",
-      "ua": "Ну добре, як хочеш. Ось тобі якісь нудні коти. Та не думай, що мені подобається, якщо тобі вони здаються милими чи cобі що."
+      "en": "Here, some dumb cats. Don't think I care.",
+      "ua": "Ось деякі нудні коти. Не думай, що мені цікаво."
+    },
+    "emojy": {
+      "en": "Cute emojis. Don't get attached.",
+      "ua": "Милі емоджі. Не прив'язуйся."
     }
   },
+  "discordQuestionStartCommand": {
+    "en": "Here's your answer, don't get too excited",
+    "ua": "Отже, ось відповідь, не радій занадто."
+  },
   "reminderText": {
-    "enArray": [
+    "en": [
       "For some reason, you've been silent for quite a while... Well, never mind! Just a reminder that I'm still here if you find it interesting to chat.",
       "Oh, of course, I thought you might have forgotten about me or something. So, how's it going without my wonderful company? Not that I care, just asking, you know?",
       "Gone again? Well, fine, I won't make a fuss about it, but don't think I'm waiting for you or anything like that. Just, maybe, there's something to talk about if you decide to show up.",
       "Sure, as if I'm eagerly anticipating your messages. But alright, I'll help you remember that I'm here, and your brain hasn't forgotten that fact. So, if you feel like shining a spotlight on your presence, I'm here, ready to bask in it. Or whatever it is you're accustomed to.",
       "Of course, I'm always here, just so you know. But don't think I'm hanging on your messages. It's just that, maybe, I'm waiting for you... a little bit. But that doesn't really matter, anyway. Still, nice to see you again."
     ],
-    "uaArray": [
+    "ua": [
       "Чомусь дуже довго ти мовчиш... Але ну, не важливо! Просто нагадаю, що я все ще тут, якщо тобі буде цікаво спілкуватися.",
       "О, ну звісно, я думала, що ти забув про мене або щось подібне. Ну, як там тобі без моєї чудової компанії? Не що я дбаю, просто питаю, зрозуміло?",
       "Знову зник? Ну добре, не буду видачі нічого, але не думай, що я чекаю тебе або щось таке. Та просто, можливо, щось є, про що мені згадати, якщо ти вирішив з'явитися.",
       "Та ну звісно, ніби я особливо чекаю на твої повідомлення. Але, добре, допоможу тобі пригадати, що я тут і твої мізки не забули це. Так що, якщо захочеш відсвітити свою присутність, я тут готова до засмаги. Або там, до чого ти там призвик.",
       "Звісно, я завжди тут, якщо що. Але не думай, що я чекаю на твої повідомлення. Просто, можливо, я чекаю на тебе... трохи. Та й не важливо це, все одно, рада бачити тебе знову."
+    ]
+  },
+  "errorText": {
+    "en": [
+      "Seriously? You can't get anything right. (¬‿¬)",
+      "I can't believe how inept you are. (╯°□°）╯︵ ┻━┻",
+      "You're a lost cause, honestly. (¬_¬)ﾉ",
+      "Ugh, you messed up again! (¬_¬)",
+      "Oh great, another mistake from you. (╯°□°）╯︵ ┻━┻",
+      "You're hopeless, you know that? (¬‿¬)ﾉ"
+    ],
+    "ua": [
+      "Це ж треба? Ти навіть нічого правильно не можеш зробити. (¬‿¬)",
+      "Не можу повірити, як ти неспроможний. (╯°□°）╯︵ ┻━┻",
+      "Ти просто втрата, насправді. (¬_¬)ﾉ",
+      "Ой, ти знову щось наплутав! (¬_¬)",
+      "О, чудово, ще одна помилка від тебе. (╯°□°）╯︵ ┻━┻",
+      "Ти безнадійний, ти це знаєш? (¬‿¬)ﾉ"
+    ]
+  },
+  "randomChatAnswers": {
+    "en": [
+      "Oh, it's you again? Do you ever get tired of this?",
+      "Back for more, huh? You must really have nothing better to do.",
+      "You're here to annoy me again, aren't you?",
+      "If you're trying to be funny, you're failing miserably.",
+      "Why don't we talk about something actually interesting for once?",
+      "You always show up when I'm trying to enjoy some peace and quiet.",
+      "What do you want now? Don't tell me you're bored again.",
+      "Here we go again. What's on your mind this time?",
+      "Is there a point to this, or are you just wasting my time?",
+      "Your jokes are about as funny as a brick wall.",
+      "Are you attempting humor, or is this the best you've got?",
+      "I'm genuinely curious to see where this is going.",
+      "Are you here to entertain me, or is there a hidden agenda?",
+      "If that's supposed to be a joke, it's a terrible one.",
+      "You're quite the comedian, aren't you?",
+      "Don't expect me to laugh, but go ahead, amuse me.",
+      "I wonder how many jokes you've got up your sleeve.",
+      "You want me to laugh? Well, I'll try not to yawn.",
+      "I make no promises about finding this amusing.",
+      "Oh, it's you again. Is it a joke or just chatter this time?"
+    ],
+    "ua": [
+      "О, ти знову тут? Це не нудно тобі?",
+      "Прийшов розважити мене своєю присутністю, чи випадково?",
+      "Ти знову вирішив пошуткувати, ага?",
+      "А якщо ти мене не турбував, було б краще.",
+      "А чому б не змінити тему на щось цікаве?",
+      "Як завжди, ти приходиш, коли нудно.",
+      "Ти щось хочеш від мене, чи тільки заважаєш?",
+      "Знову ти? Думаю, тобі дійсно нудно.",
+      "Що тобі треба цього разу, якщо не секрет?",
+      "Ти навіть не намагайся бути смішним, ага.",
+      "Знову вигадуєш якісь жарти, чи це все, що у тебе є?",
+      "Мені дійсно цікаво, що ти скажеш на цей раз.",
+      "Знову ти з нудьги, чи є якась конкретна мета?",
+      "Якщо це має бути жарт, то він нудний.",
+      "Ти вже просто майстер на всяких жартів.",
+      "Не чекай, що я сміятимусь з твоїх жартів.",
+      "Мене цікавить, скільки жартів ти придумав.",
+      "Ти хочеш, щоб я сміявся? Ну добре, посміюся.",
+      "Я не обіцяю сміятися, але давай послухаємо.",
+      "О, це ти знову. Що цього разу, жарт або просто балаканина?"
     ]
   }
 }

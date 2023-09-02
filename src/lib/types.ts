@@ -25,9 +25,10 @@ export interface SendMessageProps {
 }
 
 export interface TsundereResolverProps {
-  sendMessage: ({ chatId, message, options }: SendMessageProps) => void;
-  callbackQuery: TelegramBot["CallbackQueryGame"];
-  chatId: string | number;
+  sendMessage?: ({ chatId, message, options }: SendMessageProps) => void;
+  callbackQuery?: TelegramBot["CallbackQueryGame"];
+  chatId?: string | number;
+  emojy?: boolean;
   text?: string;
 }
 
@@ -48,3 +49,18 @@ export type AnswerToUserMsg = ({
   sendMessage,
   text,
 }: TsundereResolverProps) => Promise<any>;
+
+export type BotTelegramCommandsProps = {
+  command: string;
+  description: string;
+}[];
+
+export type BotDiscordCommandsProps = {
+  name: string;
+  description: string;
+  options?: {
+    type: number;
+    name: string;
+    description: string;
+  }[];
+}[];
