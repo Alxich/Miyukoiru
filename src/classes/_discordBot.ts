@@ -1,5 +1,17 @@
-import { REST, Routes } from "discord.js";
-import { Client, GatewayIntentBits } from "discord.js";
+import {
+  CacheType,
+  ChatInputCommandInteraction,
+  REST,
+  Routes,
+  User,
+} from "discord.js";
+import {
+  Client,
+  GatewayIntentBits,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} from "discord.js";
 
 import {
   AnswerToUserMsg,
@@ -23,6 +35,7 @@ class DiscordBot {
       GatewayIntentBits.DirectMessages,
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.GuildMessageReactions,
       GatewayIntentBits.MessageContent,
     ],
   };
@@ -138,11 +151,26 @@ class DiscordBot {
                 );
               }
             } else {
-              const answer = await this.answerToUserMsg({
-                text: "/" + interaction.commandName,
-              });
-
-              await interaction.reply(answer);
+              if (interaction.commandName != "quiz") {
+                const answer = await this.answerToUserMsg({
+                  text: "/" + interaction.commandName,
+                });
+                await interaction.reply(answer);
+              } else if (
+                interaction.commandName === "quiz" &&
+                interaction.channel
+              ) {
+                this.StartDiscordGame({
+                  user: interaction.user,
+                  message: interaction,
+                });
+              } else {
+                await interaction.reply(
+                  this.language !== "UA"
+                    ? "Sorry my dev sometimes can make mistake."
+                    : "Вибачте, мій розробник іноді допускає помилок."
+                );
+              }
             }
           }
         });
@@ -181,6 +209,111 @@ class DiscordBot {
         "Please provide a token to use this platform. You can check quide on github"
       );
     }
+  }
+
+  private CreateButtonNumbers = (min: number, max: number) => {
+    const createRowButtons = (min: number, max: number) => {
+      const emojiToNumberMap: { [key: number]: string } = {
+        0: "1️⃣",
+        1: "2️⃣",
+        2: "3️⃣",
+        3: "4️⃣",
+        4: "5️⃣",
+        5: "6️⃣",
+        6: "7️⃣",
+        7: "8️⃣",
+        8: "9️⃣",
+      };
+      const buttons = [];
+
+      for (let i = min; i !== max; i++) {
+        buttons.push(emojiToNumberMap[i].toString());
+      }
+
+      return buttons;
+    };
+
+    return createRowButtons(min, max);
+  };
+
+  private async StartDiscordGame({
+    user,
+    message,
+  }: {
+    user: User;
+    message: ChatInputCommandInteraction<CacheType>;
+  }) {
+    if (user.bot) return;
+
+    const buttons = this.CreateButtonNumbers(0, 9);
+    const minQuessNum = 0;
+    const maxQuessNum = 9;
+    const randomNumber: () => number = () =>
+      this.randomIntFromInterval(minQuessNum, maxQuessNum);
+    let randomizedNum = randomNumber();
+
+    const greetingMessage =
+      this.language === "UA"
+        ? `-\nНу ладно, ${user.username}, допоможу тобі розважитися. Почнемо гру! Вгадай число від ${minQuessNum} до ${maxQuessNum}. І не думай, що це щось особливе.`
+        : `-\nFine, ${user.username}, I'll entertain you for a bit. The game's on! Guess a number between ${minQuessNum} and ${maxQuessNum}. And don't get any ideas, it's not that exciting.`;
+
+    const victoryMessage =
+      this.language === "UA"
+        ? `-\nНу ти і молодець, ${user.username}! Вітаю, ти вгадав число ${randomizedNum}. Якщо це тобі важливо...`
+        : `-\nWell, aren't you just a genius, ${user.username}! Congratulations, you guessed the number ${randomizedNum}. If that even matters to you...`;
+
+    const tryAgainMessage = (selectedNumber: number) =>
+      this.language === "UA"
+        ? `-\nТвій вибір: ${selectedNumber}. Ну, що ж, спробуй ще раз, якщо зможеш.`
+        : `-\nYour choice: ${selectedNumber}. Well, go ahead, give it another try, if you can handle it.`;
+
+    const gameEndMessage =
+      this.language === "UA"
+        ? `-\nАгов, гра завершилася.`
+        : `-\nHey, the game's over, in case you cared.`;
+
+    if (!message.channel) return;
+
+    message
+      .reply({
+        content: greetingMessage,
+        fetchReply: true,
+      })
+      .then(async (context) => {
+        try {
+          const reactionPromises = buttons.map(async (item) => {
+            const contextReaction = await context.react(item);
+            return contextReaction;
+          });
+
+          await Promise.all(reactionPromises);
+
+          const filter = (reaction: any, user: any) =>
+            buttons.includes(reaction.emoji.name) && !user.bot;
+
+          const collector = context.createReactionCollector({
+            filter,
+          });
+
+          collector.on("collect", async (reaction: any, user) => {
+            if (!reaction || !reaction.emoji.name) return;
+
+            const selectedNumber = parseInt(reaction.emoji.name);
+
+            if (selectedNumber === randomizedNum) {
+              await context.edit(victoryMessage);
+              collector.stop();
+            } else {
+              await context.edit(tryAgainMessage(selectedNumber));
+            }
+          });
+          collector.on("end", () => {
+            context.channel.send(gameEndMessage);
+          });
+        } catch (error) {
+          throw new Error("One of the emojis failed to react:" + error);
+        }
+      });
   }
 
   private CheckActivity(chatId?: string | number) {

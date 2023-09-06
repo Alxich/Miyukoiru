@@ -13,6 +13,17 @@ import { gameOptionsTelegram } from "../lib/options";
 
 import TelegramBot from "./_telegramBot";
 import DiscordBot from "./_discordBot";
+import {
+  ActionRowBuilder,
+  AnyComponentBuilder,
+  CacheType,
+  ChatInputCommandInteraction,
+  MessageReaction,
+  PartialMessageReaction,
+  PartialUser,
+  TextBasedChannel,
+  User,
+} from "discord.js";
 
 class Tsundere {
   private language: LanguageOptions = "UA";
@@ -351,7 +362,7 @@ class Tsundere {
 
   // Only optimized for telegram
 
-  private async StartGame({
+  private async StartTelegramGame({
     sendMessage,
     callbackQuery,
     chatId,
@@ -385,7 +396,7 @@ class Tsundere {
 
     await callbackQuery({
       chats: this.chats,
-      startGame: this.StartGame.bind(this),
+      startGame: this.StartTelegramGame.bind(this),
     });
   }
 
@@ -415,9 +426,13 @@ class Tsundere {
           return catData;
 
         case "/quiz":
-          (await callbackQuery) &&
-            this.StartGame({ sendMessage, callbackQuery, chatId });
-          break;
+          if (this.platform !== "discord") {
+            (await callbackQuery) &&
+              this.StartTelegramGame({ sendMessage, callbackQuery, chatId });
+            break;
+          } else {
+               this.ReturnErrorAnswer();
+          }
 
         case "/lang":
           const selectedLang = this.language === "UA" ? "EN" : "UA";
