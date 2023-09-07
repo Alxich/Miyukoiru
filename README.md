@@ -114,15 +114,15 @@ Before you get started with this project, make sure you have the following depen
 
 These additional libraries and packages are used to enhance the functionality of the project:
 
-- **discord.js** `[`[Documentation](https://discord.js.org)`]`  - A powerful JavaScript library for interacting with the Discord API.
-- **dotenv** `[`[Documentation](https://www.npmjs.com/package/dotenv)`]` - A module that loads environment variables from a `.env` file into `process.env`.
-- **kleur** `[`[Documentation](https://www.npmjs.com/package/kleur)`]` - A library for adding colors to terminal text output in Node.js.
-- **nodemon** `[`[Documentation](https://www.npmjs.com/package/nodemon)`]` - A utility that automatically restarts the Node.js application when file changes are detected.
-- **pm2** `[`[Documentation](https://pm2.keymetrics.io)`]` - A process manager for Node.js applications that simplifies process management and scaling.
-- **telegraf** `[`[Documentation](https://telegraf.js.org)`]` - A modern Telegram Bot API framework for Node.js.
-- **ts-node** `[`[Documentation](https://www.npmjs.com/package/ts-node)`]` - A TypeScript execution environment for Node.js, enabling TypeScript to be run directly.
-- **tslint** `[`[Documentation](https://palantir.github.io/tslint)`]` - A static analysis tool that checks TypeScript code for readability, maintainability, and errors.
-- **typescript** `[`[Documentation](https://www.typescriptlang.org)`]` - A superset of JavaScript that adds static typing to the language.
+- **discord.js** [[Documentation](https://discord.js.org)]  - A powerful JavaScript library for interacting with the Discord API.
+- **dotenv** [[Documentation](https://www.npmjs.com/package/doten)] - A module that loads environment variables from a `.env` file into `process.env`.
+- **kleur** [[Documentation](https://www.npmjs.com/package/kler] - A library for adding colors to terminal text output in Node.js.
+- **nodemon** [[Documentation](https://www.npmjs.com/package/ndmon)] - A utility that automatically restarts the Node.js application when file changes are detected.
+- **pm2** [[Documentation](https://pm2.keymetrics.io)] - A process manager for Node.js applications that simplifies process management and scaling.
+- **telegraf** [[Documentation](https://telegraf.js.org)] - A modern Telegram Bot API framework for Node.js.
+- **ts-node** [[Documentation](https://www.npmjs.com/package/ts-node)] - A TypeScript execution environment for Node.js, enabling TypeScript to be run directly.
+- **tslint** [[Documentation](https://palantir.github.io/tslint)] - A static analysis tool that checks TypeScript code for readability, maintainability, and errors.
+- **typescript** [[Documentation](https://www.typescriptlang.org)] - A superset of JavaScript that adds static typing to the language.
 
 You can install these dependencies as needed to run the project successfully. For more details on installation and usage, please refer to the ***documentation*** of each dependency.
 
@@ -166,7 +166,7 @@ Understanding the organization of files and directories in this project is essen
 ```
 <br>
 
-## Some last word and thanks `:)`
+## Some last word and thanks :)
 <hr>
 <br>
 Congratulations, you've reached the end of this README! I hope this documentation has provided you with the information you need to get started with the project.
