@@ -116,7 +116,7 @@ These additional libraries and packages are used to enhance the functionality of
 
 - **discord.js** [[Documentation](https://discord.js.org)]  - A powerful JavaScript library for interacting with the Discord API.
 - **dotenv** [[Documentation](https://www.npmjs.com/package/doten)] - A module that loads environment variables from a `.env` file into `process.env`.
-- **kleur** [[Documentation](https://www.npmjs.com/package/kler]] - A library for adding colors to terminal text output in Node.js.
+- **kleur** [[Documentation](https://www.npmjs.com/package/kler)] - A library for adding colors to terminal text output in Node.js.
 - **nodemon** [[Documentation](https://www.npmjs.com/package/ndmon)] - A utility that automatically restarts the Node.js application when file changes are detected.
 - **pm2** [[Documentation](https://pm2.keymetrics.io)] - A process manager for Node.js applications that simplifies process management and scaling.
 - **telegraf** [[Documentation](https://telegraf.js.org)] - A modern Telegram Bot API framework for Node.js.
