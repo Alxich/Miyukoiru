@@ -1,3 +1,4 @@
+// Define options for the game keyboard in Telegram.
 export const gameOptionsTelegram = {
   reply_markup: {
     inline_keyboard: [
@@ -21,8 +22,11 @@ export const gameOptionsTelegram = {
   },
 };
 
-export const againOptionsTelegram = {
-  reply_markup: {
-    inline_keyboard: [[{ text: "Try it again!", callback_data: "/again" }]],
-  },
+// Define options for the "Try it again!" button in Telegram.
+export const againOptionsTelegram = (text: string) => {
+  return {
+    reply_markup: {
+      inline_keyboard: [[{ text: text, callback_data: "/again" }]],
+    },
+  };
 };

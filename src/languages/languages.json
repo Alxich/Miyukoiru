@@ -4,16 +4,16 @@
     "ua": "Ого, отже, нарешті ти вирішив просити допомоги, га? Не перехрещуй собі руки заздалегідь, я це не для тебе роблю, знаєш. Але ладно, якщо ти настільки хочеш, то дозволь мені тобі допомогти... наразі.\n\n[Основні Команди]\n- /start: Грр, стандартне привітання. Не чекай, що я буду робити це солодкомовно.\n- /info: Якщо тобі дійсно цікаво, що-небудь про мене дізнатися, то можливо, я дам тобі невеличкий підказочку.\n\n[Доступні Сторінки Допомоги]\n- /help/commands: Ти, звісно, знаєш, команди для тих, хто надто безглуздий, щоб сам зрозуміти, як все працює.\n- /help/aboutApi: Цікавишся, як шестеренки крутяться під капотом? Ну, допустимо, можливо, я трохи розкрию завісу.\n\n[Заключні Слова]\nТак що пам'ятай, я не тут для того, щоб виконувати всі твої капризи. Якщо ти хочеш позоставати тут, будь готовий до несподіванок на кожному кроці. Так що йди вперед, використовуй ті команди... якщо, звісно, сміливий до кінця!"
   },
   "infoPage": {
-    "en": "Introducing Miyukoiru, a captivating chatbot that encapsulates the essence of tsundere charm. Engage with her and experience a unique blend of playful defiance and subtle affection in her responses. With Miyukoiru, conversations become a delightful adventure as you navigate through her unpredictable and intriguing interactions. Whether she's teasing or revealing a hint of hidden warmth, Miyukoiru adds a touch of mystery and excitement to every exchange.",
-    "ua": "Представляємо вам Miyukoiru, захоплюючого чат-бота, що втілює суть поведіння тсундере. Взаємодійте з нею та відчуйте унікальне поєднання ігривої відмови та обережної прихильності в її відповідях. З Miyukoiru розмови перетворюються на захоплюючу пригоду, коли ви навігуєте через її непередбачувані та захоплюючі взаємодії. Незалежно від того, чи вона дразнить, чи розкриває намек на приховану теплоту, Міюкоіру додає чарівної загадковості та хвилювання до кожного обміну повідомленнями."
+    "en": "Introducing Miyukoiru - an intriguing chatbot that embodies the nuances of tsundere behavior. Interact with Miyukoiru and experience a unique blend of playful resistance and cautious affection in its responses. Your conversations with Miyukoiru transform into captivating adventures as you navigate through its unpredictable and endearing interactions. Whether it teases or reveals hints of hidden warmth, Miyukoiru adds charm and excitement to every exchange of messages.",
+    "ua": "Представляємо вам Miyukoiru - це цікавий чат-бот, який втілює в собі особливості тсундере-поведінки. Взаємодійте з ним та насолоджуйтеся унікальним поєднанням гризучої відмови та обережної прихильності у відповідях. Ваші розмови з Miyukoiru стають захопливою пригодою, під час якої ви навігуєте через його непередбачувані та вразливі взаємодії. Незалежно від того, чи дразнить вас, чи розкриває загадкову теплоту, Miyukoiru додає чарівності та хвилювання до кожного обміну повідомленнями."
   },
   "commandsPage": {
     "en": "1. The command /help - return you all data about using this bot\n2. The command /meme - return you random meme in chat\n3. The command /quiz - run game where you need take right number\n4. The command /lang - this will change my language you silly >_<",
     "ua": "1. Команда /help - повертає вам всі дані щодо використання цього бота.\n2. Команда /meme - повертає вам випадковий мем в чаті.\n3. Команда /quiz - запускає гру, де вам потрібно вибрати правильне число.\n4. Команда /lang - це змінить мову мого спілкування, ти дурний >_<"
   },
   "aboutApiPage": {
-    "en": "MemeApi used in this bot from https://github.com/D3vd/Meme_Api \nAll answers about this api reference to author.",
-    "ua": "MemeApi, що використовується в цьому боті, взято з https://github.com/D3vd/Meme_Api \nУсі відповіді щодо цього API належать його автору."
+    "en": "This bot uses two APIs to provide you with entertaining content. The MemeApi, available at https://github.com/D3vd/Meme_Api, serves memes from Reddit forums, adding humor to your conversations. \n\nAdditionally, we use the Shibe.Online API, which can be found at http://shibe.online/api/, to deliver adorable images of cats and dogs. We want to extend our gratitude to the authors of these APIs for their generosity in allowing us to use their services.",
+    "ua": "Цей бот використовує два API для надання вам розважального контенту. MemeApi, доступний за адресою https://github.com/D3vd/Meme_Api, подає меми з форумів Reddit, додаючи гумор до вашого спілкування. \n\nДодатково, ми використовуємо API Shibe.Online, який можна знайти за адресою http://shibe.online/api/, щоб надсилати вам чарівні зображення котиків та собачок. Ми хочемо висловити подяку авторам цих API за їхню щедрість у наданні можливості користування їхніми послугами."
   },
   "quizPage": {
     "info": {
@@ -165,5 +165,23 @@
       "Я не обіцяю сміятися, але давай послухаємо.",
       "О, це ти знову. Що цього разу, жарт або просто балаканина?"
     ]
+  },
+  "gameText": {
+    "greetingMessage": {
+      "UA": "-\nНу ладно, {{user.username}}, допоможу тобі розважитися. Почнемо гру! Вгадай число від {{minQuessNum}} до {{maxQuessNum}}. І не думай, що це щось особливе.",
+      "EN": "-\nFine, {{user.username}}, I'll entertain you for a bit. The game's on! Guess a number between {{minQuessNum}} and {{maxQuessNum}}. And don't get any ideas, it's not that exciting."
+    },
+    "victoryMessage": {
+      "UA": "-\nНу ти і молодець, {{user.username}}! Вітаю, ти вгадав число {{randomizedNum}}. Якщо це тобі важливо...",
+      "EN": "-\nWell, aren't you just a genius, {{user.username}}! Congratulations, you guessed the number {{randomizedNum}}. If that even matters to you..."
+    },
+    "tryAgainMessage": {
+      "UA": "-\nТвій вибір: {{selectedNumber}}. Ну, що ж, спробуй ще раз, якщо зможеш.",
+      "EN": "-\nYour choice: {{selectedNumber}}. Well, go ahead, give it another try, if you can handle it."
+    },
+    "gameEndMessage": {
+      "UA": "-\nАгов, гра завершилася.",
+      "EN": "-\nHey, the game's over, in case you cared."
+    }
   }
 }

@@ -1,10 +1,12 @@
-import { Context, NarrowedContext, Telegraf } from "telegraf";
+import { Context, NarrowedContext } from "telegraf";
 import {
   CallbackQuery,
   Message,
   Update,
 } from "telegraf/typings/core/types/typegram";
 import { TelegramBot } from "../classes";
+
+import { User, ChatInputCommandInteraction, CacheType } from "discord.js";
 
 export type LanguageOptions = "UA" | "EN";
 
@@ -14,7 +16,7 @@ export type HelpInstructionProps =
   | "/help/aboutApi"
   | "/help/commands";
 
-export type TsundereInitProps =
+export type MiyukoiruInitProps =
   | NarrowedContext<Context<Update>, Update.MessageUpdate<Message>>
   | NarrowedContext<Context<Update>, Update.CallbackQueryUpdate<CallbackQuery>>;
 
@@ -24,19 +26,28 @@ export interface SendMessageProps {
   options?: any;
 }
 
-export interface TsundereResolverProps {
+export interface MiyukoiruResolverProps {
   sendMessage?: ({ chatId, message, options }: SendMessageProps) => void;
   callbackQuery?: TelegramBot["CallbackQueryGame"];
   chatId?: string | number;
   emojy?: boolean;
   text?: string;
+  user?: User;
+  message?: ChatInputCommandInteraction<CacheType>;
+  buttons?: string[];
 }
 
 export type StartGameProps = ({
   sendMessage,
   callbackQuery,
   chatId,
-}: TsundereResolverProps) => Promise<void>;
+}: MiyukoiruResolverProps) => Promise<void>;
+
+export type BotDiscordGame = {
+  user: User;
+  message: ChatInputCommandInteraction<CacheType>;
+  buttons: string[];
+};
 
 export interface CallbackQueryGameProps {
   startGame: StartGameProps;
@@ -48,7 +59,7 @@ export type AnswerToUserMsg = ({
   chatId,
   sendMessage,
   text,
-}: TsundereResolverProps) => Promise<any>;
+}: MiyukoiruResolverProps) => Promise<any>;
 
 export type BotTelegramCommandsProps = {
   command: string;

@@ -73,13 +73,22 @@ export function helloServer() {
   );
 }
 
+/**
+ * Generates a list of menu commands based on the selected language and platform.
+ *
+ * @param {LanguageOptions} language - The selected language ('UA' or 'EN').
+ * @param {string} type - The platform type ('telegram' or 'discord').
+ * @returns {Array} - An array of command objects with descriptions.
+ */
 export const menuReturnCommands = (
   language: LanguageOptions,
   type: "telegram" | "discord"
 ) => {
+  // Define translations for menu options.
   const translations: Record<string, { en: string; ua: string }> =
     languagesTranslate.menuOptions;
 
+  // Create an array of menu commands with descriptions based on the selected language.
   const answers = [
     "start",
     "info",
@@ -96,8 +105,8 @@ export const menuReturnCommands = (
       language !== "UA" ? translations[command].en : translations[command].ua,
   }));
 
-  // adding there extra command for discord to operate in right way with platform and not allow bot to answer every one
-  type === "discord" &&
+  // Adding an extra command for Discord to handle user questions.
+  if (type === "discord") {
     answers.push({
       ...{
         options: [
@@ -115,6 +124,7 @@ export const menuReturnCommands = (
           ? languagesTranslate.discordQuestionStartCommand.en
           : languagesTranslate.discordQuestionStartCommand.ua,
     });
+  }
 
   return answers;
 };

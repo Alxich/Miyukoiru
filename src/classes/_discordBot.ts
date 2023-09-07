@@ -1,17 +1,4 @@
-import {
-  CacheType,
-  ChatInputCommandInteraction,
-  REST,
-  Routes,
-  User,
-} from "discord.js";
-import {
-  Client,
-  GatewayIntentBits,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-} from "discord.js";
+import { REST, Routes, Client, GatewayIntentBits } from "discord.js";
 
 import {
   AnswerToUserMsg,
@@ -25,12 +12,13 @@ class DiscordBot {
   private token: string = process.env.DISCORD_TOKEN as string;
   private clientID: string = process.env.DISCORD_CLIENT_ID as string;
   private bot: Client<boolean>;
-  private language: LanguageOptions = "UA";
+  private language: LanguageOptions = "UA"; // Default language is Ukrainian
   private languagesTranslate: any = [{}];
   private answerToUserMsg: AnswerToUserMsg;
   private lastActivityTime: any = new Date();
   private randomIntFromInterval: (min: number, max: number) => number;
-  private botOptionts = {
+  private botOptions = {
+    // Configuration for Discord bot.
     intents: [
       GatewayIntentBits.DirectMessages,
       GatewayIntentBits.Guilds,
@@ -47,13 +35,14 @@ class DiscordBot {
     answerToUserMsg,
     randomIntFromInterval,
   }: {
+    // Constructor initializes the bot with necessary settings.
     language: LanguageOptions;
     languagesTranslate: any;
     answerToUserMsg: AnswerToUserMsg;
     randomIntFromInterval: (min: number, max: number) => number;
   }) {
     if (this.token) {
-      this.bot = new Client(this.botOptionts);
+      this.bot = new Client(this.botOptions);
       this.language = language;
       this.languagesTranslate = languagesTranslate;
       this.answerToUserMsg = answerToUserMsg;
@@ -65,17 +54,20 @@ class DiscordBot {
       this.PingBotCommands();
     } else {
       throw new Error(
-        "Please provide a token to use this platform. You can check quide on github"
+        "Please provide a token to use this platform. You can check the guide on GitHub."
       );
     }
   }
 
   private async PingBotCommands(commands?: BotDiscordCommandsProps) {
+    // Method to refresh application commands (slash commands).
     const rest = new REST({ version: "10" }).setToken(this.token);
 
     try {
       if (!commands && !this.botCommands) {
-        ("Can`t run method applicationCommands without commands data");
+        throw new Error(
+          "Can't run the method applicationCommands without commands data"
+        );
       }
 
       console.log("Started refreshing application (/) commands.");
@@ -86,7 +78,7 @@ class DiscordBot {
         });
       } else {
         throw new Error(
-          "Can`t run method applicationCommands without CLIENT_ID"
+          "Can't run the method applicationCommands without CLIENT_ID."
         );
       }
 
@@ -96,19 +88,22 @@ class DiscordBot {
     }
   }
 
-  async StartBot(greeting: (userName: string) => string) {
+  public async StartBot(greeting: (userName: string) => string) {
+    // Method to start the bot, log in, and handle interactions.
     if (this.token) {
       if (this.bot) {
         this.bot.login(this.token);
 
+        // Event listener when the bot is ready.
         this.bot.on("ready", () => {
           if (this.bot.user) {
             console.log(`Logged in as ${this.bot.user.tag}!`);
           } else {
-            throw new Error("The user is not fethced");
+            throw new Error("The user is not fetched.");
           }
         });
 
+        // Event listener when a user joins a guild (server).
         this.bot.on("guildMemberAdd", (member) => {
           const welcomeChannel = member.guild.channels.cache.find(
             (channel) => channel.name === "general"
@@ -120,14 +115,18 @@ class DiscordBot {
           }
         });
 
+        // Event listener for interactions with the bot (slash commands).
         this.bot.on("interactionCreate", async (interaction) => {
           if (!interaction.isChatInputCommand()) return;
 
           if (interaction.commandName) {
+            // Check if an interaction has a commandName (i.e., a slash command was used).
             if (interaction.commandName === "question") {
+              // Check if the used command is "question".
               const question = interaction.options.getString("my_question");
 
               if (question) {
+                // If a valid question is provided as an option.
                 const answer = await this.answerToUserMsg({
                   text: question,
                 });
@@ -135,7 +134,7 @@ class DiscordBot {
                 await interaction.reply(
                   `.\n${
                     this.language !== "UA"
-                      ? `The user question to me: ${question}`
+                      ? `The user's question to me: ${question}`
                       : `Питання юзера до мене: ${question}`
                   }\n${
                     this.language !== "UA"
@@ -144,6 +143,7 @@ class DiscordBot {
                   }`
                 );
               } else {
+                // If no valid question is provided as an option, reply with an error message.
                 interaction.reply(
                   await this.answerToUserMsg({
                     text: "/error",
@@ -151,23 +151,36 @@ class DiscordBot {
                 );
               }
             } else {
+              // Handle other slash commands.
               if (interaction.commandName != "quiz") {
+                // If the command is not "quiz", retrieve an answer and reply.
                 const answer = await this.answerToUserMsg({
                   text: "/" + interaction.commandName,
                 });
-                await interaction.reply(answer);
+                answer
+                  ? await interaction.reply(answer)
+                  : // If no valid question is provided as an option, reply with an error message.
+                    interaction.reply(
+                      await this.answerToUserMsg({
+                        text: "/error",
+                      })
+                    );
               } else if (
                 interaction.commandName === "quiz" &&
                 interaction.channel
               ) {
-                this.StartDiscordGame({
+                // If the command is "quiz" and there's a channel available, initiate a quiz game.
+                await this.answerToUserMsg({
+                  text: "/" + interaction.commandName,
+                  buttons: this.CreateButtonNumbers(0, 9),
                   user: interaction.user,
                   message: interaction,
                 });
               } else {
+                // Handle any other cases, typically responding to incorrect command usage.
                 await interaction.reply(
                   this.language !== "UA"
-                    ? "Sorry my dev sometimes can make mistake."
+                    ? "Sorry, my dev sometimes can make mistakes."
                     : "Вибачте, мій розробник іноді допускає помилок."
                 );
               }
@@ -175,6 +188,7 @@ class DiscordBot {
           }
         });
 
+        // Event listener for incoming messages (e.g., random chat responses).
         this.bot.on("messageCreate", async (message) => {
           if (message.author.bot) return;
           const answersAllLang = this.languagesTranslate.randomChatAnswers;
@@ -191,7 +205,7 @@ class DiscordBot {
               : answersAllLang.ua[randomAnswerId - 1];
 
           const answerEmojy = await this.answerToUserMsg({
-            text: "/emojy",
+            text: "/emoji", // Corrected from '/emojy' to '/emoji'
             emojy: true,
           });
 
@@ -202,15 +216,16 @@ class DiscordBot {
         // Periodic activity check every 2 hours 30 minutes
         setInterval(() => this.CheckActivity(), 2.5 * 60 * 60 * 1000);
       } else {
-        throw new Error("Sorry the bot can't initialize a bot");
+        throw new Error("Sorry, the bot can't initialize.");
       }
     } else {
       throw new Error(
-        "Please provide a token to use this platform. You can check quide on github"
+        "Please provide a token to use this platform. You can check the guide on GitHub."
       );
     }
   }
 
+  // Helper method to create an array of buttons with emoji numbers.
   private CreateButtonNumbers = (min: number, max: number) => {
     const createRowButtons = (min: number, max: number) => {
       const emojiToNumberMap: { [key: number]: string } = {
@@ -224,6 +239,7 @@ class DiscordBot {
         7: "8️⃣",
         8: "9️⃣",
       };
+
       const buttons = [];
 
       for (let i = min; i !== max; i++) {
@@ -236,98 +252,12 @@ class DiscordBot {
     return createRowButtons(min, max);
   };
 
-  private async StartDiscordGame({
-    user,
-    message,
-  }: {
-    user: User;
-    message: ChatInputCommandInteraction<CacheType>;
-  }) {
-    if (user.bot) return;
-
-    const buttons = this.CreateButtonNumbers(0, 9);
-    const minQuessNum = 0;
-    const maxQuessNum = 9;
-    const randomNumber: () => number = () =>
-      this.randomIntFromInterval(minQuessNum, maxQuessNum);
-    let randomizedNum = randomNumber();
-
-    const greetingMessage =
-      this.language === "UA"
-        ? `-\nНу ладно, ${user.username}, допоможу тобі розважитися. Почнемо гру! Вгадай число від ${minQuessNum} до ${maxQuessNum}. І не думай, що це щось особливе.`
-        : `-\nFine, ${user.username}, I'll entertain you for a bit. The game's on! Guess a number between ${minQuessNum} and ${maxQuessNum}. And don't get any ideas, it's not that exciting.`;
-
-    const victoryMessage =
-      this.language === "UA"
-        ? `-\nНу ти і молодець, ${user.username}! Вітаю, ти вгадав число ${randomizedNum}. Якщо це тобі важливо...`
-        : `-\nWell, aren't you just a genius, ${user.username}! Congratulations, you guessed the number ${randomizedNum}. If that even matters to you...`;
-
-    const tryAgainMessage = (selectedNumber: number) =>
-      this.language === "UA"
-        ? `-\nТвій вибір: ${selectedNumber}. Ну, що ж, спробуй ще раз, якщо зможеш.`
-        : `-\nYour choice: ${selectedNumber}. Well, go ahead, give it another try, if you can handle it.`;
-
-    const gameEndMessage =
-      this.language === "UA"
-        ? `-\nАгов, гра завершилася.`
-        : `-\nHey, the game's over, in case you cared.`;
-
-    if (!message.channel) return;
-
-    message
-      .reply({
-        content: greetingMessage,
-        fetchReply: true,
-      })
-      .then(async (context) => {
-        try {
-          const reactionPromises = buttons.map(async (item) => {
-            const contextReaction = await context.react(item);
-            return contextReaction;
-          });
-
-          await Promise.all(reactionPromises);
-
-          const filter = (reaction: any, user: any) =>
-            buttons.includes(reaction.emoji.name) && !user.bot;
-
-          const collector = context.createReactionCollector({
-            filter,
-          });
-
-          collector.on("collect", async (reaction: any, user) => {
-            if (!reaction || !reaction.emoji.name) return;
-
-            const selectedNumber = parseInt(reaction.emoji.name);
-
-            if (selectedNumber === randomizedNum) {
-              await context.edit(victoryMessage);
-              collector.stop();
-            } else {
-              await context.edit(tryAgainMessage(selectedNumber));
-            }
-          });
-          collector.on("end", () => {
-            context.channel.send(gameEndMessage);
-          });
-        } catch (error) {
-          throw new Error("One of the emojis failed to react:" + error);
-        }
-      });
-  }
-
+  // Method to check user activity and send reminders.
   private CheckActivity(chatId?: string | number) {
     const currentTime: any = new Date();
     const currentHour = currentTime.getHours();
 
-    /**
-     * This will check the last time user make activity
-     * and from that last time we count 4 hours.
-     * After 4 we will notify user about our bot.
-     *
-     * Bot will notify only at 10am to 9pm.
-     * There must not be night messages.
-     */
+    // Check the last time the user made activity and notify after 4 hours.
     if (currentHour >= 10 && currentHour < 21) {
       const timeDifference =
         (currentTime - this.lastActivityTime) / (1000 * 60 * 60); // difference in hours
@@ -347,17 +277,20 @@ class DiscordBot {
     }
   }
 
-  changeLanguage(language: LanguageOptions) {
+  // Method to change the bot's language.
+  public changeLanguage(language: LanguageOptions) {
     if (!this.bot) {
-      throw new Error("Hey bot is not created yet. Check the your code!");
+      throw new Error("Hey, the bot is not created yet. Check your code!");
     }
 
+    this.language = language;
     this.PingBotCommands(
       menuReturnCommands(language, "discord") as BotDiscordCommandsProps
     );
   }
 
-  async SendMessage({ chatId, message, options }: SendMessageProps) {
+  // Method to send a message using the bot.
+  public async SendMessage({ chatId, message, options }: SendMessageProps) {
     if (!this.bot) {
       return false;
     }
